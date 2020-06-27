@@ -24,8 +24,8 @@ public class Controller {
 
     }
 
-    public void onResult() {
-        model.getRequest();
-        view.refresh(model.getModelData());
+    public void onResult(String url) {
+        model.getRequest(url);
+        view.showResult(model.getModelData());
     }
 }

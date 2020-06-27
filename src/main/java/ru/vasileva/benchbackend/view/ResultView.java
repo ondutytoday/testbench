@@ -8,7 +8,8 @@ public class ResultView implements View{
     private Controller controller;
 
     @Override
-    public void refresh(ModelData modelData) {
+    public void showResult(ModelData modelData) {
+
 
     }
 
@@ -25,8 +26,8 @@ public class ResultView implements View{
         controller.onFinishShow();
     }
 
-    public void eventResult() {
-        controller.onResult();
+    public void eventResult(String url) {
+        controller.onResult(url);
     }
 
 }

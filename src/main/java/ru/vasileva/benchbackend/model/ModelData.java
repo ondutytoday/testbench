@@ -4,13 +4,13 @@ import java.util.Map;
 
 public class ModelData {
 
-    private Map<String, Long> wordsAndCount;
+    private Map<String, Long> mapOfWords;
 
-    public Map<String, Long> getWordsAndCount() {
-        return wordsAndCount;
+    public Map<String, Long> getMapOfWords() {
+        return mapOfWords;
     }
 
-    public void setWordsAndCount(Map<String, Long> wordsAndCount) {
-        this.wordsAndCount = wordsAndCount;
+    public void setMapOfWords(Map<String, Long> mapOfWords) {
+        this.mapOfWords = mapOfWords;
     }
 }

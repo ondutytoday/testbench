@@ -3,5 +3,5 @@ package ru.vasileva.benchbackend.model;
 public interface Model {
     ModelData getModelData();
 
-    void getRequest();
+    void getRequest(String url);
 }
