@@ -20,20 +20,19 @@ public class MainModel implements Model {
 
     private ModelData modelData = new ModelData();
 
-    private static Map<String, Long> makeWordsMap(String text) {
-        StringTokenizer st = new StringTokenizer(text, " ,.!?\";:[]()\n\r\t");
-        Map<String, Long> map = new TreeMap<>();
-        while (st.hasMoreTokens()) {
-            String word = st.nextToken().toUpperCase();
-            map.merge(word, 1l, (oldVal, newVal) -> oldVal + 1);
-        }
-        return map;
-    }
+    /**
+     * Accepts and processes the URL-address,
+     * sends words and file to {@link ModelData},
+     * copies html page to file
+     *
+     * @param url
+     *        URL-address entered by user
 
-    public ModelData getModelData() {
-        return modelData;
-    }
-
+     * @throws IOException
+     *        if URL-address has no protocol {@link java.net.MalformedURLException;}
+     *        or HTTP Status is not OK {@link org.jsoup.HttpStatusException}
+     *        or another I/O error occurs
+     */
     @Override
     public void processRequest(String url) throws IOException {
         HttpURLConnection connection = null;
@@ -59,15 +58,69 @@ public class MainModel implements Model {
         }
     }
 
+    /**
+     * Copies html page to file
+     *
+     * @param connection
+     *        connection with URL-address
+     *
+     * @param filePath
+     *        file for saving html
+     *
+     * @throws IOException
+     *         if I/O error occurs
+     */
     private void copyToFile(HttpURLConnection connection, Path filePath) throws IOException {
         Files.copy(connection.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
     }
 
+    /**
+     * Parsing of html-page
+     *
+     * @param contentCharset
+     *        content encoding of html-page
+     *
+     * @param pathToDownload
+     *        name of html file with content
+     *
+     * @return string with text from body of our html page
+     *
+     * @throws IOException
+     *         if I/O error occurs
+     */
     private String parsePage(String contentCharset, Path pathToDownload) throws IOException {
         Document doc = Jsoup.parse(pathToDownload.toFile(), contentCharset);
         Element body = doc.body();
         String text = body.text();
         return text;
+    }
+
+    /**
+     * Splits text to words using delimeters from test-task,
+     * adds words to map in its UPPERCASE as it was shown in test-task and increment its count,
+     *
+     * @param text
+     *        text content of body-part of html page
+     *
+     * @return map of words and count in the natural ordering of words
+     */
+    private static Map<String, Long> makeWordsMap(String text) {
+        StringTokenizer st = new StringTokenizer(text, " ,.!?\";:[]()\n\r\t");
+        Map<String, Long> map = new TreeMap<>();
+        while (st.hasMoreTokens()) {
+            String word = st.nextToken().toUpperCase();
+            map.merge(word, 1l, (oldVal, newVal) -> oldVal + 1);
+        }
+        return map;
+    }
+
+    /**
+     * Getter for modelData
+     *
+     * @return actual {@link ModelData} instance;
+     */
+    public ModelData getModelData() {
+        return modelData;
     }
 
 }
