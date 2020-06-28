@@ -42,7 +42,7 @@ public class MainModel implements Model {
             connection.setRequestMethod("GET");
             connection.connect();
             if (connection.getResponseCode() != HttpURLConnection.HTTP_OK) {
-                throw new HttpStatusException("Ошибка HTTP: "
+                throw new HttpStatusException("Server returned HTTP "
                         + connection.getResponseCode() + " "
                         + connection.getResponseMessage(),
                         connection.getResponseCode(), url);

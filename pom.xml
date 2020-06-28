@@ -6,7 +6,6 @@
 
     <groupId>ru.vasileva</groupId>
     <artifactId>benchbackend</artifactId>
-    <packaging>jar</packaging>
     <version>1.0-SNAPSHOT</version>
     <properties>
         <junit.version>5.7.0-M1</junit.version>
@@ -14,6 +13,29 @@
 
     <build>
         <plugins>
+            <plugin>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>3.3.0</version>
+                <configuration>
+                    <descriptorRefs>
+                        <descriptorRef>jar-with-dependencies</descriptorRef>
+                    </descriptorRefs>
+                    <archive>
+                        <manifest>
+                            <mainClass>ru.vasileva.benchbackend.Main</mainClass>
+                        </manifest>
+                    </archive>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>make-assembly</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>

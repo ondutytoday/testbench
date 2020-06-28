@@ -18,7 +18,7 @@ public class ConsoleView implements View {
         map.forEach((k, v) -> {
             ConsoleHelper.writeMessage(k + " - " + v);
         });
-        ConsoleHelper.writeMessage("Файл находится по адресу: " + modelData.getFilePath().toAbsolutePath().toString());
+        ConsoleHelper.writeMessage("The file is located at: " + modelData.getFilePath().toAbsolutePath().toString());
     }
 
     @Override
@@ -29,7 +29,7 @@ public class ConsoleView implements View {
     public void init() {
         while (true) {
             try {
-                ConsoleHelper.writeMessage("Введите адрес сайта или exit для выхода:");
+                ConsoleHelper.writeMessage("Enter the site address or \"exit\" to close the application:");
                 String string = ConsoleHelper.readString();
                 if ("exit".equalsIgnoreCase(string)) {
                     eventOnExit();
@@ -40,9 +40,9 @@ public class ConsoleView implements View {
                 ConsoleHelper.writeMessage(h.getMessage());
             }
             catch (MalformedURLException m) {
-                ConsoleHelper.writeMessage("Вы ввели неправильный адрес. Попробуйте снова.");
+                ConsoleHelper.writeMessage("You have entered the wrong address. Try again.");
             } catch (IOException e) {
-                ConsoleHelper.writeMessage("Что-то пошло не так... Попробуйте снова.");
+                ConsoleHelper.writeMessage("Something was wrong ... try again.");
             }
         }
     }
