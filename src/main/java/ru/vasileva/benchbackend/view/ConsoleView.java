@@ -1,5 +1,8 @@
 package ru.vasileva.benchbackend.view;
 
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.jsoup.HttpStatusException;
 import ru.vasileva.benchbackend.controller.Controller;
 import ru.vasileva.benchbackend.model.ModelData;
@@ -13,6 +16,7 @@ import java.util.Map;
  */
 public class ConsoleView implements View {
 
+    private static final Logger logger = LogManager.getLogger();
     private Controller controller;
 
     /**
@@ -20,6 +24,7 @@ public class ConsoleView implements View {
      * or "exit" for closing the program
      */
     public void init() {
+        logger.info("---START---------------------");
         while (true) {
             try {
                 ConsoleHelper.writeMessage("Enter the site address or \"exit\" to close the application:");
@@ -31,12 +36,15 @@ public class ConsoleView implements View {
                 }
             } catch (HttpStatusException h) {
                 ConsoleHelper.writeMessage(h.getMessage());
+                logger.warn(h.getMessage(), h.fillInStackTrace());
             }
             catch (MalformedURLException m) {
                 ConsoleHelper.writeMessage("You have entered the wrong address. Try again.");
+                logger.warn(m.getMessage(), m.fillInStackTrace());
             } catch (IOException e) {
-                ConsoleHelper.writeMessage("Something was wrong ... try again.");
+                ConsoleHelper.writeMessage("Something was wrong ... try another URL.");
                 ConsoleHelper.writeMessage(e.getMessage());
+                logger.error(e.getMessage(), e.fillInStackTrace());
             }
         }
     }
@@ -66,6 +74,7 @@ public class ConsoleView implements View {
      */
     public void eventOnExit() {
         ConsoleHelper.writeMessage("Завершение...");
+        logger.info("---EXIT---------------------");
         controller.exit();
     }
 
