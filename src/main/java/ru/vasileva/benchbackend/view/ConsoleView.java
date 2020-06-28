@@ -30,7 +30,7 @@ public class ConsoleView implements View {
                 ConsoleHelper.writeMessage("Enter the site address or \"exit\" to close the application:");
                 String string = ConsoleHelper.readString();
                 if ("exit".equalsIgnoreCase(string)) {
-                    eventOnExit();
+                    exit();
                 } else {
                     controller.requestAndResult(string);
                 }
@@ -72,7 +72,7 @@ public class ConsoleView implements View {
      *        if a security manager exists and its <code>checkExit</code>
      *        method doesn't allow exit with the specified status.
      */
-    public void eventOnExit() {
+    public void exit() {
         ConsoleHelper.writeMessage("Closing...");
         logger.info("---EXIT---------------------");
         controller.exit();
