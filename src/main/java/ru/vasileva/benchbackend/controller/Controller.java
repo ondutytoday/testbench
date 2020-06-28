@@ -3,6 +3,8 @@ package ru.vasileva.benchbackend.controller;
 import ru.vasileva.benchbackend.model.Model;
 import ru.vasileva.benchbackend.view.View;
 
+import java.io.IOException;
+
 public class Controller {
     private Model model;
     private View view;
@@ -15,17 +17,12 @@ public class Controller {
         this.view = view;
     }
 
-    public void onStartShow () {
-
-    }
-
-
-    public void onFinishShow() {
-
-    }
-
-    public void onResult(String url) {
-        model.getRequest(url);
+    public void onResult(String url) throws IOException{
+        model.processRequest(url);
         view.showResult(model.getModelData());
+    }
+
+    public void exit() {
+        System.exit(0);
     }
 }
