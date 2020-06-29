@@ -1,6 +1,8 @@
 package ru.vasileva.benchbackend.model;
 
 import java.io.IOException;
+import java.security.KeyManagementException;
+import java.security.NoSuchAlgorithmException;
 
 /**
  * Interface, that contains logic of program
@@ -21,5 +23,14 @@ public interface Model {
      *        or HTTP Status is not OK {@link org.jsoup.HttpStatusException}
      *        or another I/O error occurs
      */
-    void processRequest(String url) throws IOException;
+    void processRequest(String url) throws IOException, NoSuchAlgorithmException, KeyManagementException;
+
+    /**
+     * Switchs SSLVerification
+     *
+     * @param isUnverified
+     *        if true - ssl verification switched off
+     */
+    void setSSLVerification(boolean isUnverified);
+
 }

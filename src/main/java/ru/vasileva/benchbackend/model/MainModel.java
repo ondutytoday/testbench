@@ -23,6 +23,7 @@ import java.util.TreeMap;
 public class MainModel implements Model {
 
     private ModelData modelData = new ModelData();
+    private boolean isUnverified = false;
 
     /**
      * Accepts and processes the URL-address,
@@ -38,29 +39,12 @@ public class MainModel implements Model {
      *        or another I/O error occurs
      */
     @Override
-    public void processRequest(String url) throws IOException {
-
+    public void processRequest(String url) throws IOException, NoSuchAlgorithmException, KeyManagementException {
         HttpURLConnection connection = null;
         try {
-/*            *//* Start of Fix *//*
-            TrustManager[] trustAllCerts = new TrustManager[] { new X509TrustManager() {
-                public java.security.cert.X509Certificate[] getAcceptedIssuers() { return null; }
-                public void checkClientTrusted(X509Certificate[] certs, String authType) { }
-                public void checkServerTrusted(X509Certificate[] certs, String authType) { }
-
-            } };
-
-            SSLContext sc = SSLContext.getInstance("SSL");
-            sc.init(null, trustAllCerts, new java.security.SecureRandom());
-            HttpsURLConnection.setDefaultSSLSocketFactory(sc.getSocketFactory());
-
-            // Create all-trusting host name verifier
-            HostnameVerifier allHostsValid = new HostnameVerifier() {
-                public boolean verify(String hostname, SSLSession session) { return true; }
-            };
-            // Install the all-trusting host verifier
-            HttpsURLConnection.setDefaultHostnameVerifier(allHostsValid);
-            *//* End of the fix*/
+            if (isUnverified) {
+                sslVerification();
+            }
             connection = (HttpURLConnection) new URL(url).openConnection();
             connection.setRequestMethod("GET");
             connection.connect();
@@ -76,14 +60,43 @@ public class MainModel implements Model {
             copyToFile(connection, file);
             String text = parsePage(contentCharset, file);
             modelData.setMapOfWords(makeWordsMap(text));
-        } /*catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        } catch (KeyManagementException e) {
-            e.printStackTrace();
-        } */finally {
+        } finally {
             if (connection != null)
                 connection.disconnect();
         }
+    }
+
+    private void sslVerification() throws NoSuchAlgorithmException, KeyManagementException {
+
+        TrustManager[] trustAllCerts = new TrustManager[] { new X509TrustManager() {
+            public X509Certificate[] getAcceptedIssuers() { return null; }
+            public void checkClientTrusted(X509Certificate[] certs, String authType) { }
+            public void checkServerTrusted(X509Certificate[] certs, String authType) { }
+
+        } };
+
+        SSLContext sc = SSLContext.getInstance("SSL");
+        sc.init(null, trustAllCerts, new java.security.SecureRandom());
+        HttpsURLConnection.setDefaultSSLSocketFactory(sc.getSocketFactory());
+
+        // Create all-trusting host name verifier
+        HostnameVerifier allHostsValid = new HostnameVerifier() {
+            public boolean verify(String hostname, SSLSession session) { return true; }
+        };
+        // Install the all-trusting host verifier
+        HttpsURLConnection.setDefaultHostnameVerifier(allHostsValid);
+
+    }
+
+    /**
+     * Switchs SSLVerification
+     *
+     * @param isUnverified
+     *        if true - ssl verification switched off
+     */
+    @Override
+    public void setSSLVerification(boolean isUnverified) {
+        this.isUnverified = isUnverified;
     }
 
     /**

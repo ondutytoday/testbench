@@ -4,6 +4,8 @@ import ru.vasileva.benchbackend.model.Model;
 import ru.vasileva.benchbackend.view.View;
 
 import java.io.IOException;
+import java.security.KeyManagementException;
+import java.security.NoSuchAlgorithmException;
 
 /**
  * Class, that binds user interface and model of program
@@ -42,9 +44,13 @@ public class Controller {
      *        or HTTP Status is not OK {@link org.jsoup.HttpStatusException}
      *        or another I/O error occurs
      */
-    public void requestAndResult(String url) throws IOException {
+    public void requestAndResult(String url) throws IOException, KeyManagementException, NoSuchAlgorithmException {
         model.processRequest(url);
         view.showResult(model.getModelData());
+    }
+
+    public void setSSLVerification (boolean isUnverified) {
+        model.setSSLVerification(isUnverified);
     }
 
     /**

@@ -9,6 +9,8 @@ import ru.vasileva.benchbackend.model.ModelData;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.security.KeyManagementException;
+import java.security.NoSuchAlgorithmException;
 import java.util.Map;
 
 /**
@@ -25,6 +27,15 @@ public class ConsoleView implements View {
      */
     public void init() {
         logger.info("---START---------------------");
+        ConsoleHelper.writeMessage("Do you want to switch off SSL verification? Print \"yes\" to switch off or any other word to ignore this message: ");
+        try {
+            String answer = ConsoleHelper.readString();
+            if ("yes".equals(answer)) {
+                controller.setSSLVerification(true);
+            }
+        } catch (IOException e) {
+            logger.error(e.getMessage(), e.getCause());
+        }
         while (true) {
             try {
                 ConsoleHelper.writeMessage("Enter the site address or \"exit\" to close the application:");
@@ -42,6 +53,14 @@ public class ConsoleView implements View {
                 ConsoleHelper.writeMessage("You have entered the wrong address. Try again.");
                 logger.warn(m.getMessage(), m.getCause());
             } catch (IOException e) {
+                ConsoleHelper.writeMessage("Something was wrong ... try another URL.");
+                ConsoleHelper.writeMessage(e.getMessage());
+                logger.error(e.getMessage(), e.getCause());
+            } catch (NoSuchAlgorithmException e) {
+                ConsoleHelper.writeMessage("Something was wrong ... try another URL.");
+                ConsoleHelper.writeMessage(e.getMessage());
+                logger.error(e.getMessage(), e.getCause());
+            } catch (KeyManagementException e) {
                 ConsoleHelper.writeMessage("Something was wrong ... try another URL.");
                 ConsoleHelper.writeMessage(e.getMessage());
                 logger.error(e.getMessage(), e.getCause());
