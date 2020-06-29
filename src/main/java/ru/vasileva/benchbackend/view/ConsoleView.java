@@ -27,7 +27,8 @@ public class ConsoleView implements View {
      */
     public void init() {
         logger.info("---START---------------------");
-        ConsoleHelper.writeMessage("Do you want to switch off SSL verification? Print \"yes\" to switch off or any other word to ignore this message: ");
+        ConsoleHelper.writeMessage("Do you want to switch off SSL verification? " +
+                "Print \"yes\" to switch off or any other word to ignore this message: ");
         try {
             String answer = ConsoleHelper.readString();
             if ("yes".equals(answer)) {
@@ -48,20 +49,19 @@ public class ConsoleView implements View {
             } catch (HttpStatusException h) {
                 ConsoleHelper.writeMessage(h.getMessage());
                 logger.warn(h.getMessage(), h.getCause());
-            }
-            catch (MalformedURLException m) {
-                ConsoleHelper.writeMessage("You have entered the wrong address. Try again.");
+            } catch (MalformedURLException m) {
+                ConsoleHelper.writeMessage("You have entered wrong address. Try again.");
                 logger.warn(m.getMessage(), m.getCause());
             } catch (IOException e) {
                 ConsoleHelper.writeMessage("Something was wrong ... try another URL.");
                 ConsoleHelper.writeMessage(e.getMessage());
                 logger.error(e.getMessage(), e.getCause());
             } catch (NoSuchAlgorithmException e) {
-                ConsoleHelper.writeMessage("Something was wrong ... try another URL.");
+                ConsoleHelper.writeMessage("Something was wrong ...");
                 ConsoleHelper.writeMessage(e.getMessage());
                 logger.error(e.getMessage(), e.getCause());
             } catch (KeyManagementException e) {
-                ConsoleHelper.writeMessage("Something was wrong ... try another URL.");
+                ConsoleHelper.writeMessage("Something was wrong ...");
                 ConsoleHelper.writeMessage(e.getMessage());
                 logger.error(e.getMessage(), e.getCause());
             }
@@ -72,8 +72,7 @@ public class ConsoleView implements View {
      * Shows the result of request like it was shown in test-task
      * Shows absolute path of file
      *
-     * @param modelData
-     *        data which contains information for showing
+     * @param modelData data which contains information for showing
      */
     @Override
     public void showResult(ModelData modelData) {
@@ -81,15 +80,14 @@ public class ConsoleView implements View {
         map.forEach((k, v) -> {
             ConsoleHelper.writeMessage(k + " - " + v);
         });
-        ConsoleHelper.writeMessage("The file is located at: " + modelData.getFilePath().toAbsolutePath().toString());
+        ConsoleHelper.writeMessage("The file located at: " + modelData.getFilePath().toAbsolutePath().toString());
     }
 
     /**
      * Terminates the currently running program with normal termination.
      *
-     * @throws SecurityException
-     *        if a security manager exists and its <code>checkExit</code>
-     *        method doesn't allow exit with the specified status.
+     * @throws SecurityException if a security manager exists and its <code>checkExit</code>
+     *                           method doesn't allow exit with the specified status.
      */
     public void exit() {
         ConsoleHelper.writeMessage("Closing...");
@@ -100,8 +98,7 @@ public class ConsoleView implements View {
     /**
      * Setter for {@link Controller} instance
      *
-     * @param controller
-     *        controller that binds user interface and model of program
+     * @param controller controller that binds user interface and model of program
      */
     @Override
     public void setController(Controller controller) {

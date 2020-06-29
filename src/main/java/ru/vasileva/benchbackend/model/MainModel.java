@@ -69,11 +69,11 @@ public class MainModel implements Model {
     private void sslVerification() throws NoSuchAlgorithmException, KeyManagementException {
 
         TrustManager[] trustAllCerts = new TrustManager[] { new X509TrustManager() {
-            public X509Certificate[] getAcceptedIssuers() { return null; }
-            public void checkClientTrusted(X509Certificate[] certs, String authType) { }
-            public void checkServerTrusted(X509Certificate[] certs, String authType) { }
-
-        } };
+                public X509Certificate[] getAcceptedIssuers() { return null; }
+                public void checkClientTrusted(X509Certificate[] certs, String authType) { }
+                public void checkServerTrusted(X509Certificate[] certs, String authType) { }
+            }
+        };
 
         SSLContext sc = SSLContext.getInstance("SSL");
         sc.init(null, trustAllCerts, new java.security.SecureRandom());
@@ -89,7 +89,7 @@ public class MainModel implements Model {
     }
 
     /**
-     * Switchs SSLVerification
+     * Switches SSLVerification
      *
      * @param isUnverified
      *        if true - ssl verification switched off
