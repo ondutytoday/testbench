@@ -5,6 +5,7 @@ import ru.vasileva.benchbackend.controller.Controller;
 import ru.vasileva.benchbackend.model.MainModel;
 import ru.vasileva.benchbackend.model.Model;
 import ru.vasileva.benchbackend.view.ConsoleView;
+import ru.vasileva.benchbackend.view.View;
 
 /**
  * Class, that provides external entry points for the program.
@@ -21,7 +22,7 @@ public class Main {
      */
     public static void main(String[] args) {
         Model model = new MainModel();
-        ConsoleView view = new ConsoleView();
+        View view = new ConsoleView();
         Controller controller = new Controller();
 
         view.setController(controller);

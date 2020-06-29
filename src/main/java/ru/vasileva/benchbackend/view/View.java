@@ -23,4 +23,9 @@ public interface View {
      *        controller that binds user interface and model of program
      */
     void setController (Controller controller);
+
+    /**
+     * Entry point for view
+     */
+    void init();
 }
