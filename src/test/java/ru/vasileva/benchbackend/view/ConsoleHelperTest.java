@@ -7,6 +7,8 @@ import static org.junit.jupiter.api.Assertions.*;
 class ConsoleHelperTest {
 
     @Test
-    void readString() {
+    void readSimpleString() {
+        assertEquals("test", "test");
     }
+
 }
